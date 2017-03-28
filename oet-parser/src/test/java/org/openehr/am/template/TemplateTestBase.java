@@ -38,7 +38,7 @@ import se.acode.openehr.parser.ADLParser;
 
 import junit.framework.TestCase;
 
-public class TemplateTestBase extends TestCase {
+abstract public class TemplateTestBase extends TestCase {
 	
 	TemplateTestBase() {
 		try {

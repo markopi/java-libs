@@ -1,11 +1,9 @@
 package org.openehr.am.serialize;
 
-import java.io.InputStream;
-import java.io.StringReader;
+import org.openehr.am.archetype.*;
+import se.acode.openehr.parser.*;
 
-import org.openehr.am.archetype.Archetype;
-
-import se.acode.openehr.parser.ADLParser;
+import java.io.*;
 
 public class RoundTripTest extends SerializerTestBase {
 
@@ -40,7 +38,32 @@ public class RoundTripTest extends SerializerTestBase {
 
 	}
 
+	public void testRoundtrip() throws Exception {
+		roundtrip("openEHR-EHR-OBSERVATION.height.v1.adl");
+	}
+
 	private InputStream loadFromClasspath(String adl) throws Exception {
 		return this.getClass().getClassLoader().getResourceAsStream(adl);
 	}
+
+	private Archetype parse14FromClasspath(String classpath) throws Exception {
+		ADLParser parser = new ADLParser(loadFromClasspath(classpath));
+		return parser.parse();
+	}
+
+	private static Archetype parse14FromString(String inputAdl) throws Exception {
+		ADLParser parser14 = new ADLParser(inputAdl);
+		return parser14.parse();
+	}
+
+
+	private Archetype roundtrip(String classpath) throws Exception {
+		return roundtrip(parse14FromClasspath(classpath));
+	}
+	private Archetype roundtrip(Archetype r) throws Exception {
+		ADLSerializer sr = new ADLSerializer();
+		String ser = sr.output(r);
+		return parse14FromString(ser);
+	}
+
 }

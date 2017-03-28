@@ -987,7 +987,10 @@ public class ADLSerializer {
 	}
 
     private String quoteString(String value) {
-        return "\"" + value.replaceAll("[\"]", "\\\\$0") + "\"";
+		String escaped = value.replace("\\", "\\\\")
+				.replace("\"", "\\\"");
+
+        return "\"" + escaped + "\"";
     }
 
 	private void printDefinitionList(Writer out,

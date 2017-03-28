@@ -1,16 +1,14 @@
 package se.acode.openehr.parser;
 
-import junit.framework.TestCase;
-
-import java.io.File;
-import java.io.InputStream;
-import java.util.*;
-import java.text.SimpleDateFormat;
-
+import junit.framework.*;
 import org.openehr.am.archetype.constraintmodel.*;
 import org.openehr.am.archetype.constraintmodel.primitive.*;
-import org.openehr.rm.support.basic.Interval;
 import org.openehr.rm.datatypes.quantity.datetime.*;
+import org.openehr.rm.support.basic.*;
+
+import java.io.*;
+import java.text.*;
+import java.util.*;
 
 /**
  * ADLParser testing config and common logic
@@ -18,7 +16,7 @@ import org.openehr.rm.datatypes.quantity.datetime.*;
  * @author Rong Chen
  * @version 1.0
  */
-public class ParserTestBase extends TestCase {
+abstract public class ParserTestBase extends TestCase {
 
     public ParserTestBase(String test) {
         super(test);

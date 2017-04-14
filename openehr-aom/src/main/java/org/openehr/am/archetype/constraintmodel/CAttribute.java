@@ -53,9 +53,9 @@ public abstract class CAttribute extends ArchetypeConstraint {
         if (StringUtils.isEmpty(rmAttributeName)) {
             throw new IllegalArgumentException("rmTypeName null");
         }
-        if (existence == null) {
-            throw new IllegalArgumentException("existence null");
-        }
+//        if (existence == null) {
+//            throw new IllegalArgumentException("existence null");
+//        }
         this.rmAttributeName = rmAttributeName;
         this.existence = existence;
         this.children = new ArrayList<CObject>();
@@ -110,6 +110,10 @@ public abstract class CAttribute extends ArchetypeConstraint {
      * @return existence
      */
     public Existence getExistence() {
+        return existence!=null?existence:Existence.REQUIRED;
+    }
+
+    public Existence getNullableExistence() {
         return existence;
     }
 

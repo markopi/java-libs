@@ -2424,7 +2424,7 @@ void c_any() :
 CAttribute c_attribute(String path) :
 {
   String name;
-  CAttribute.Existence existence = CAttribute.Existence.REQUIRED;
+  CAttribute.Existence existence = null;
   Cardinality cardinality = null; // default to non-container type
   List children;
   CAttribute attribute;

@@ -574,6 +574,7 @@ public class ADLSerializer {
 
 	protected void printExistence(CAttribute.Existence existence, Writer out)
 			throws IOException {
+		if (existence==null) return;
 		if (CAttribute.Existence.REQUIRED.equals(existence)) {
 			return;
 		}

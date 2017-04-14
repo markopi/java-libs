@@ -14,14 +14,12 @@
  */
 package org.openehr.rm.common.resource;
 
-import java.util.Map;
-import java.util.List;
+import org.apache.commons.lang.*;
+import org.openehr.rm.*;
+import org.openehr.rm.datatypes.text.*;
+import org.openehr.rm.support.terminology.*;
 
-import org.apache.commons.lang.StringUtils;
-import org.openehr.rm.RMObject;
-import org.openehr.rm.datatypes.text.CodePhrase;
-import org.openehr.rm.support.terminology.OpenEHRCodeSetIdentifiers;
-import org.openehr.rm.support.terminology.TerminologyService;
+import java.util.*;
 
 /**
  * Language specific detail of resource description. When a resource is
@@ -48,7 +46,7 @@ public class ResourceDescriptionItem extends RMObject {
 		}
 		if (StringUtils.isEmpty(purpose)) {
 		//	throw new IllegalArgumentException("null or empty purpose");
-		System.out.println("WARNING: Archetype parsed that has null or empty purpose...");
+//		System.out.println("WARNING: Archetype parsed that has null or empty purpose...");
 		}
 		if (use != null && StringUtils.isEmpty(use)) {
 			throw new IllegalArgumentException("empty use");

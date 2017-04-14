@@ -14,13 +14,11 @@
  */
 package org.openehr.rm.common.resource;
 
-import java.io.Serializable;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import org.apache.commons.lang.*;
+import org.openehr.rm.*;
 
-import org.apache.commons.lang.StringUtils;
-import org.openehr.rm.Attribute;
+import java.io.*;
+import java.util.*;
 
 /**
  * Defines the descriptive meta-data of a resource.
@@ -47,7 +45,7 @@ public class ResourceDescription implements Serializable{
 			@Attribute(name = "parentResource") AuthoredResource parentResource ){
 		if (originalAuthor == null || originalAuthor.size() == 0 ) {
 			// throw new IllegalArgumentException("null or empty originalAuthor");
-			System.out.println("Warning...parsing archetype with null or empty original author");
+			//System.out.println("Warning...parsing archetype with null or empty original author");
 		}
 		if (StringUtils.isEmpty(lifecycleState) ) {
 			throw new IllegalArgumentException("null or empty lifecycleState");

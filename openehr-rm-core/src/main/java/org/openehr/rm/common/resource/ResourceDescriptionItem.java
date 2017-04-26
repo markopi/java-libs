@@ -41,7 +41,7 @@ public class ResourceDescriptionItem extends RMObject {
 			TerminologyService terminologyService) {
 		if (language == null) {
 			//throw new IllegalArgumentException("null language");
-			System.out.println("WARNING: Archetype parsed that has wrong language handling...language set to ISO_639-1::en");
+//			System.out.println("WARNING: Archetype parsed that has wrong language handling...language set to ISO_639-1::en");
 		    language = new CodePhrase("ISO_639-1","en"); 
 		}
 		if (StringUtils.isEmpty(purpose)) {

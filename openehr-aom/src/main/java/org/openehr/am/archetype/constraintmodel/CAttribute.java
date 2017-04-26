@@ -73,11 +73,7 @@ public abstract class CAttribute extends ArchetypeConstraint {
     	}
     	List<CObject> list = new ArrayList<CObject>();
     	for(CObject cobj : children) {
-    		if(cobj == null) {
-    			System.out.println("null cobj while copying c_attr: " + rmAttributeName + ", " + path());    			
-    		} else {
-                list.add(cobj.copy());
-            }
+    		list.add(cobj.copy());
     	}    	
     	return list;
     }

@@ -14,34 +14,23 @@
  */
 package org.openehr.am.serialize;
 
-import org.apache.commons.lang.ObjectUtils;
-import org.apache.commons.lang.StringUtils;
-import org.openehr.am.archetype.Archetype;
-import org.openehr.am.archetype.assertion.Assertion;
+import org.apache.commons.lang.*;
+import org.openehr.am.archetype.*;
+import org.openehr.am.archetype.assertion.*;
 import org.openehr.am.archetype.constraintmodel.*;
 import org.openehr.am.archetype.constraintmodel.primitive.*;
 import org.openehr.am.archetype.ontology.*;
-import org.openehr.am.openehrprofile.datatypes.quantity.CDvOrdinal;
-import org.openehr.am.openehrprofile.datatypes.quantity.CDvQuantity;
-import org.openehr.am.openehrprofile.datatypes.quantity.CDvQuantityItem;
-import org.openehr.am.openehrprofile.datatypes.quantity.Ordinal;
-import org.openehr.am.openehrprofile.datatypes.text.CCodePhrase;
-import org.openehr.rm.common.resource.AuthoredResource;
-import org.openehr.rm.common.resource.ResourceDescription;
-import org.openehr.rm.common.resource.ResourceDescriptionItem;
-import org.openehr.rm.common.resource.TranslationDetails;
-import org.openehr.rm.datatypes.quantity.DvQuantity;
-import org.openehr.rm.datatypes.text.CodePhrase;
-import org.openehr.rm.support.basic.Interval;
-import org.openehr.rm.support.identification.ArchetypeID;
-import org.openehr.rm.support.identification.ObjectID;
+import org.openehr.am.openehrprofile.datatypes.quantity.*;
+import org.openehr.am.openehrprofile.datatypes.text.*;
+import org.openehr.rm.common.resource.*;
+import org.openehr.rm.datatypes.quantity.*;
+import org.openehr.rm.datatypes.text.*;
+import org.openehr.rm.support.basic.*;
+import org.openehr.rm.support.identification.*;
 
 import java.io.*;
-import java.nio.charset.Charset;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.nio.charset.*;
+import java.util.*;
 
 /**
  * ADL serializer for the openEHR Java kernel
@@ -251,8 +240,21 @@ public class ADLSerializer {
 			newline(out);
 		}
 	}
-	
-	protected void printMap(Map<String,String> map, Writer out, int indent) 
+
+	protected void printMapAttribute(String attribute, Map<String,String> map, Writer out, int indent)
+			throws IOException {
+		if(map == null || map.size() == 0) {
+			return;
+		}
+		indent(indent, out);
+		out.write(attribute);
+		out.write(" = <");
+		printMap(map, out, indent+1);
+		out.write(">");
+		newline(out);
+	}
+
+	protected void printMap(Map<String,String> map, Writer out, int indent)
 			throws IOException {
 		if(map == null || map.size() == 0) {
 			return;
@@ -308,6 +310,9 @@ public class ADLSerializer {
 		indent(1, out);
 		out.write(">");
 		newline(out);
+
+		printNonEmptyStringMap("other_details", description.getOtherDetails(), 1, out);
+
 	}
 
 	protected void printDescriptionItem(ResourceDescriptionItem item,
@@ -336,6 +341,7 @@ public class ADLSerializer {
 		printNonEmptyStringMap("original_resource_uri", item.getOriginalResourceUri(), indent + 1, out);
 
 		// other details not printed
+		printNonEmptyStringMap("other_details", item.getOtherDetails(), indent+1, out);
 
 		indent(indent, out);
 		out.write(">");
@@ -387,7 +393,7 @@ public class ADLSerializer {
 		newline(out);
 
 		for (String key : map.keySet()) {
-			indent(2, out);
+			indent(indent+1, out);
 			out.write("[" + quoteString(key) + "] = <" + quoteString(map.get(key)) + ">");
 			newline(out);
 		}

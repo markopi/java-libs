@@ -312,7 +312,7 @@ public class ADLSerializer {
 		newline(out);
 
 		printNonEmptyStringMap("other_details", description.getOtherDetails(), 1, out);
-
+		printNonEmptyStringList("other_contributors", description.getOtherContributors(), 1, out);
 	}
 
 	protected void printDescriptionItem(ResourceDescriptionItem item,

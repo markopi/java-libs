@@ -13,15 +13,10 @@
  */
 package org.openehr.terminology;
 
-import java.util.List;
-import java.util.Map;
+import junit.framework.*;
+import org.openehr.rm.support.terminology.*;
 
-import org.openehr.rm.support.terminology.CodeSetAccess;
-import org.openehr.rm.support.terminology.OpenEHRCodeSetIdentifiers;
-import org.openehr.rm.support.terminology.TerminologyAccess;
-import org.openehr.rm.support.terminology.TerminologyService;
-
-import junit.framework.TestCase;
+import java.util.*;
 
 /**
  * Test case for SimpleTerminologyService
@@ -81,7 +76,11 @@ public class SimpleTerminologyServiceTest extends TestCase {
 		assertNotNull("code set ids should not be null", codeSets);
 		assertTrue("code set ids should not be empty", codeSets.size() > 0);
 	}
-	
+
+	public void testGetLanguage() {
+		System.out.println(instance.codeSetForId(OpenEHRCodeSetIdentifiers.LANGUAGES).allCodes());
+	}
+
 	public void testGetCountryCodeSetByExternalName() {
 		String[] externalNames = { 
 				"ISO_3166-1", "IANA_character-sets", 

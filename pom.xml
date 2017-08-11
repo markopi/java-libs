@@ -4,7 +4,7 @@
   <groupId>openehr</groupId>
   <artifactId>ref_impl_java</artifactId>
   <packaging>pom</packaging>
-  <version>1.0.14-marand-6</version>
+  <version>1.0.19-marand-1</version>
   <name>The openEHR Reference Java Implementation</name>
   <organization>
     <name>The openEHR Foundation</name>
@@ -22,8 +22,8 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>2.3.2</version>
         <configuration>
-          <source>1.5</source>
-          <target>1.5</target>
+          <source>1.8</source>
+          <target>1.8</target>
           <compilerArgument />
         </configuration>
       </plugin>

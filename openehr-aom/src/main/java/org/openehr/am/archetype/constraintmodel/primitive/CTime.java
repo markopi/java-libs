@@ -86,7 +86,7 @@ public final class CTime extends CPrimitive {
      * @return name of the type
      */
     public String getType() {
-        return "DV_TIME";
+        return "TIME";
     }
 
     /**

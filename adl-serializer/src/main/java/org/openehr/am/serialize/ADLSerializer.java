@@ -377,6 +377,9 @@ public class ADLSerializer {
 				out.write(",");
 			}
 		}
+		if (list.size()==1) {
+			out.write(", ...");
+		}
 		out.write(">");
 		newline(out);
 	}

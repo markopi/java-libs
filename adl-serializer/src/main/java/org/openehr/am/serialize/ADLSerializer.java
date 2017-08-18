@@ -1130,10 +1130,14 @@ public class ADLSerializer {
 			throws IOException {
 		if (cduration.getValue() != null) {
 			out.write(cduration.getValue().toString());
-		} else if(cduration.getPattern() != null) {
-			out.write(cduration.getPattern());
 		} else {
-			printInterval(cduration.getInterval(), out);
+			if(cduration.getPattern() != null) {
+				out.write(cduration.getPattern());
+			}
+			if (cduration.getInterval()!=null) {
+				if (cduration.getPattern()!=null) out.write("/");
+				printInterval(cduration.getInterval(), out);
+			}
 		}
 		if(cduration.assumedValue() != null) {
 			out.write("; ");

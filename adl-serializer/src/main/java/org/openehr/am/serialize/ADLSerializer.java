@@ -221,7 +221,7 @@ public class ADLSerializer {
 					newline(out);
 				}
 				
-				if(td.getOtherDetails() != null) {
+				if(td.getOtherDetails() != null && !td.getOtherDetails().isEmpty()) {
 					indent(3, out);
 					out.write("other_details = <");
 					newline(out);				
@@ -393,14 +393,13 @@ public class ADLSerializer {
 		indent(indent, out);
 		out.write(label);
 		out.write(" = <");
-		newline(out);
 
 		for (String key : map.keySet()) {
+			newline(out);
 			indent(indent+1, out);
 			out.write("[" + quoteString(key) + "] = <" + quoteString(map.get(key)) + ">");
-			newline(out);
 		}
-
+		newline(out);
 		indent(indent, out);
 		out.write(">");
 		newline(out);
@@ -1019,14 +1018,13 @@ public class ADLSerializer {
 				out.write("[");
 				out.write(quoteString(term.getCode()));
 				out.write("] = <");
-				newline(out);
 				for (Map.Entry<String, String> entry : term.getItems().entrySet()) {
+					newline(out);
 					indent(5, out);
 					out.write(entry.getKey());
 					out.write(" = <");
 					out.write(quoteString(entry.getValue()));
 					out.write(">");
-					newline(out);
 				}
 				newline(out);
 				indent(4, out);

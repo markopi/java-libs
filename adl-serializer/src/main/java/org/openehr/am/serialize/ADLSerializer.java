@@ -873,16 +873,7 @@ public class ADLSerializer {
 		out.write("ontology");
 		newline(out);
 
-		if (ontology.getTerminologies() != null) {
-			indent(1, out);
-			out.write("terminologies_available = <");
-			for (String terminology : ontology.getTerminologies()) {
-				out.write(quoteString(terminology));
-				out.write(", ");
-			}
-			out.write("...>");
-			newline(out);
-		}
+		printNonEmptyStringList("terminologies_available", ontology.getTerminologies(), 1, out);
 
 		// *** Term definition section *** (ADL 1.4 spec 8.6.3)
 		indent(1, out);

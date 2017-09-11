@@ -299,6 +299,8 @@ public class ADLSerializer {
 		out.write(">");
 		newline(out);
 
+		printNonEmptyStringList("other_contributors", description.getOtherContributors(), 1, out);
+
 		printNonEmptyString("resource_package_uri", description.getResourcePackageUri(), 1, out);
 		
 		indent(1, out);

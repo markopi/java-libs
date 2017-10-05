@@ -15,13 +15,11 @@
 
 package org.openehr.am.openehrprofile.datatypes.quantity;
 
-import java.io.Serializable;
+import org.apache.commons.lang.*;
+import org.apache.commons.lang.builder.*;
+import org.openehr.rm.support.basic.*;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.apache.commons.lang.builder.ToStringBuilder;
-import org.openehr.rm.support.basic.Interval;
+import java.io.*;
 
 /**
  * Constrain instances of DV_QUANTITY.

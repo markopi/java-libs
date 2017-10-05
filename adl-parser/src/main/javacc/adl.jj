@@ -3014,6 +3014,7 @@ CDvQuantityItem c_dv_quantity_item() :
 	]
   ">"
   {
+    if (units==null || units.isEmpty()) units="1";
   	return new CDvQuantityItem(value, precision, units);
   }
 }

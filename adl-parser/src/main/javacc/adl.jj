@@ -1558,7 +1558,7 @@ String string_value() :
   String value;
 }
 {
-  t = <V_STRING> {
+  (t = <V_STRING> {
     value = t.image;
   }
   {
@@ -1570,6 +1570,20 @@ String string_value() :
 
     return value.substring(1, value.length() - 1);
   }
+  ) |
+  (t = <V_LOCAL_CODE> {
+    value = t.image;
+  }
+  {
+  	// remove escape, \" -> "
+  	value = value.replace("\\\"","\"");
+
+  	// remove escape, \\ -> \
+  	value = value.replace("\\\\","\\");
+
+    return value.substring(1, value.length() - 1);
+  }
+  )
 }
 
 List index_string_list() :{

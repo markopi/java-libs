@@ -13,9 +13,10 @@
  */
 package org.openehr.terminology;
 
-import java.util.*;
-import org.apache.log4j.Logger;
+import org.apache.log4j.*;
 import org.openehr.rm.support.terminology.*;
+
+import java.util.*;
 
 /**
  * A simple implementation of terminology service that provides
@@ -43,23 +44,25 @@ public class SimpleTerminologyService implements TerminologyService {
 	}
 
 	public CodeSetAccess codeSet(String name) {
-		return codeSets.get(name);
+		return codeSets.getOrDefault(name, AcceptingCodeSetAccess.INSTANCE);
 	}
 
 	public CodeSetAccess codeSetForId(OpenEHRCodeSetIdentifiers id) {
 		String name = codeSetInternalIdToExternalName.get(id.toString());
 		if(name == null) {
-			return null;
+			return AcceptingCodeSetAccess.INSTANCE;
 		}
-		return codeSets.get(name);
+		return codeSets.getOrDefault(name, AcceptingCodeSetAccess.INSTANCE);
 	}
 
 	public boolean hasTerminology(String name) {
-		return terminologies.containsKey(name);
+		return true;
+//		return terminologies.containsKey(name);
 	}
 
 	public boolean hasCodeSet(String name) {
-		return codeSetInternalIdToExternalName.containsKey(name);
+		return true;
+//		return codeSetInternalIdToExternalName.containsKey(name);
 	}
 
 	public List<String> terminologyIdentifiers() {

@@ -13,10 +13,10 @@
  */
 package org.openehr.terminology;
 
-import java.util.*;
+import org.openehr.rm.datatypes.text.*;
+import org.openehr.rm.support.terminology.*;
 
-import org.openehr.rm.datatypes.text.CodePhrase;
-import org.openehr.rm.support.terminology.TerminologyAccess;
+import java.util.*;
 
 /**
  * Simple in-memory implementation of a terminology access
@@ -123,11 +123,12 @@ public class SimpleTerminologyAccess implements TerminologyAccess {
 	}
 	
 	public boolean hasCodeForGroupId(String groupId, CodePhrase code) {
-		Set<CodePhrase> group = groups.get(groupId);
-		if(group == null) {
-			return false;
-		}
-		return group.contains(code);
+		return true;
+//		Set<CodePhrase> group = groups.get(groupId);
+//		if(group == null) {
+//			return false;
+//		}
+//		return group.contains(code);
 	}
 
 	/*

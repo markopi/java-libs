@@ -14,15 +14,13 @@
  */
 package org.openehr.rm.common.resource;
 
-import java.util.*;
+import org.apache.commons.lang.builder.*;
+import org.openehr.rm.*;
+import org.openehr.rm.common.generic.*;
+import org.openehr.rm.datatypes.text.*;
+import org.openehr.rm.support.terminology.*;
 
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.openehr.rm.RMObject;
-import org.openehr.rm.common.generic.RevisionHistory;
-import org.openehr.rm.datatypes.text.CodePhrase;
-import org.openehr.rm.support.terminology.OpenEHRCodeSetIdentifiers;
-import org.openehr.rm.support.terminology.TerminologyService;
+import java.util.*;
 
 /**
  * Abstract idea of an online resource created by a human author
@@ -197,21 +195,32 @@ public abstract class AuthoredResource extends RMObject {
 		if (description != null && translations != null) {
 			//if (!description.equals(this.description)) {
 			//if(this.description != description) {
-			if (description.getParentResource() != this) {
-				for (String languageCode : description.getDetails().keySet()) {
-					if (!translations.containsKey(languageCode)
-							&& !originalLanguage.getCodeString().equals(languageCode)) {
-						throw new IllegalArgumentException(
-								"the language of description details not in translations");
-					}
-				}
-			}
+//			if (description.getParentResource() != this) {
+//				for (String languageCode : description.getDetails().keySet()) {
+//					if (!translations.containsKey(languageCode)
+//							&& !originalLanguage.getCodeString().equals(languageCode)) {
+//						addMissingTranslation(description.getDetails().get(languageCode));
+//						throw new IllegalArgumentException(
+//								"the language of description details not in translations");
+//					}
+//				}
+//			}
 		}
 		this.description = description;
 		if (description != null && description.getParentResource() != this) {
 			description.setParentResource(this);
 		}
 	}
+
+//	private void addMissingTranslation(ResourceDescriptionItem desc) {
+//		Map<String, String> author = new LinkedHashMap<>();
+//		author.put("author", "(Automatically generated due to being present in description details)");
+//
+//		TranslationDetails tds = new TranslationDetails(desc.getLanguage(), author,
+//				null, null, null);
+//		translations.put(desc.getLanguage().getCodeString(), tds);
+//
+//	}
 
 	void setControlled(boolean isControlled) {
 		this.isControlled = isControlled;

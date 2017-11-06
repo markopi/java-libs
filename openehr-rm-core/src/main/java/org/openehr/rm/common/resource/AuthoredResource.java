@@ -47,29 +47,29 @@ public abstract class AuthoredResource extends RMObject {
 			throw new IllegalArgumentException("null originalLanguage");
 		}
 		if (translations != null) {
-			if (translations.isEmpty()) {
-				throw new IllegalArgumentException("empty translations");
-			}
-			if (translations.containsKey(originalLanguage.getCodeString())) {
-				throw new IllegalArgumentException(
-						"original language in translations");
-			}
+//			if (translations.isEmpty()) {
+//				throw new IllegalArgumentException("empty translations");
+//			}
+//			if (translations.containsKey(originalLanguage.getCodeString())) {
+//				throw new IllegalArgumentException(
+//						"original language in translations");
+//			}
 		}
 		 
 		// TODO
 		// if (terminologyService == null) {
 		// 	throw new IllegalArgumentException("null terminology service");
 		// }
-		if (terminologyService != null 
-				&& !terminologyService.codeSetForId(
-						OpenEHRCodeSetIdentifiers.LANGUAGES).hasCode(originalLanguage)) {
-			throw new IllegalArgumentException("unknown original language " + 
-					originalLanguage);
-		}
-		if (isControlled == (revisionHistory == null)) {
-			throw new IllegalArgumentException(
-					"breach of revision history validity");
-		}
+//		if (terminologyService != null
+//				&& !terminologyService.codeSetForId(
+//						OpenEHRCodeSetIdentifiers.LANGUAGES).hasCode(originalLanguage)) {
+//			throw new IllegalArgumentException("unknown original language " +
+//					originalLanguage);
+//		}
+//		if (isControlled == (revisionHistory == null)) {
+//			throw new IllegalArgumentException(
+//					"breach of revision history validity");
+//		}
 		this.originalLanguage = originalLanguage;
 		this.translations = translations;
 		setDescription(description);

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <xs:schema id="Template" targetNamespace="openEHR/v1/Template" elementFormDefault="qualified"
-	xmlns="openEHR/v1/Template" xmlns:mstns="openEHR/v1/Template"
-	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+           xmlns="openEHR/v1/Template"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
   <xs:annotation>
     <xs:documentation>
@@ -28,8 +28,25 @@
       <xs:element name="name" type="xs:string" />
       <xs:element name="description" type="RESOURCE_DESCRIPTION" minOccurs="0" />
       <xs:element name="definition" type="archetyped" />
+      <xs:element name="integrity_checks" type="ArchetypeIntegrity" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
   </xs:complexType>
+
+  <xs:complexType name="ArchetypeIntegrity">
+    <xs:sequence>
+      <xs:element name="digest">
+        <xs:complexType>
+          <xs:simpleContent>
+            <xs:extension base="xs:string">
+              <xs:attribute name="id" type="xs:string"/>
+            </xs:extension>
+          </xs:simpleContent>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="archetype_id" type="xs:string"/>
+  </xs:complexType>
+
 
   <xs:complexType name="archetyped" abstract="true">
     <xs:annotation>

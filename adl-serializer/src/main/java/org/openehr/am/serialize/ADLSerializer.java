@@ -1204,8 +1204,10 @@ public class ADLSerializer {
 					&& interval.isUpperIncluded()) {
 				out.write(interval.getLower().toString());
 			} else {
+				if (!interval.isLowerIncluded()) out.write(">");
 				out.write(interval.getLower().toString());
 				out.write("..");
+				if (!interval.isUpperIncluded()) out.write("<");
 				out.write(interval.getUpper().toString());
 			}
 		} else if (interval.getLower() == null) {

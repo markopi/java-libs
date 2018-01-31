@@ -1161,7 +1161,7 @@ ArchetypeTerm archetype_term() :
 }
 {
   "["
-     code = local_code_value()
+     code = string_value()
    { term = new ArchetypeTerm(code); }
 
     "]" <SYM_EQ> "<"

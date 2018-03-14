@@ -7,13 +7,13 @@
     <xs:documentation>
       openEHR schema base types for the default values
       DEFAULT_VALUE &lt;== is a ==> DEFAULT_DV_BOOLEAN == has a ==> DV_BOOLEAN
-      
+
       use AOM constraint objects for the DV constraints
     </xs:documentation>
   </xs:annotation>
-  
+
   <xs:element name="template" type="TEMPLATE"/>
-  
+
   <xs:complexType name ="TEMPLATE">
     <xs:sequence>
       <xs:annotation id="comment_TEMPLATE">
@@ -28,23 +28,52 @@
       <xs:element name="name" type="xs:string" />
       <xs:element name="description" type="RESOURCE_DESCRIPTION" minOccurs="0" />
       <xs:element name="definition" type="archetyped" />
-      <xs:element name="integrity_checks" type="ArchetypeIntegrity" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="view" type="View" minOccurs="0"/>
+      <xs:element name="integrity_checks" type="IntegrityCheck" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
   </xs:complexType>
 
-  <xs:complexType name="ArchetypeIntegrity">
+  <xs:complexType name="IntegrityCheck" abstract="true">
+      <xs:sequence>
+          <xs:element name="digest">
+              <xs:complexType>
+                  <xs:simpleContent>
+                      <xs:extension base="xs:string">
+                          <xs:attribute name="id" type="xs:string"/>
+                      </xs:extension>
+                  </xs:simpleContent>
+              </xs:complexType>
+          </xs:element>
+      </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ArchetypeIntegrity" >
+    <xs:complexContent>
+      <xs:extension base="IntegrityCheck">
+        <xs:attribute name="archetype_id" type="xs:string"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+
+  <xs:complexType name="View">
     <xs:sequence>
-      <xs:element name="digest">
-        <xs:complexType>
-          <xs:simpleContent>
-            <xs:extension base="xs:string">
-              <xs:attribute name="id" type="xs:string"/>
-            </xs:extension>
-          </xs:simpleContent>
-        </xs:complexType>
-      </xs:element>
+      <xs:element name="constraints" type="ViewConstraint" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
-    <xs:attribute name="archetype_id" type="xs:string"/>
+  </xs:complexType>
+
+  <xs:complexType name="ViewConstraint">
+    <xs:sequence>
+      <xs:element name="items" type="ViewConstraintItem" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="path" type="xs:string" use="required" />
+  </xs:complexType>
+
+  <xs:complexType name="ViewConstraintItem">
+    <xs:sequence>
+      <xs:element name="value" type="xs:string"/>
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:string" use="required"/>
   </xs:complexType>
 
 
@@ -55,11 +84,11 @@
         2. Otherwise is same.
       </xs:documentation>
     </xs:annotation>
-      <xs:attribute name="archetype_id" type="xs:string" use="required" />
-      <xs:attribute name="from_template" type="xs:boolean" default="false" />
-      <xs:attribute name="template_id" type="xs:string" />
+    <xs:attribute name="archetype_id" type="xs:string" use="required" />
+    <xs:attribute name="from_template" type="xs:boolean" default="false" />
+    <xs:attribute name="template_id" type="xs:string" />
   </xs:complexType>
-  
+
   <xs:complexType name="content_item" abstract="true">
     <xs:complexContent>
       <xs:extension base="archetyped">
@@ -76,16 +105,16 @@
         <xs:attribute name="annotation" type="xs:string" />
       </xs:extension>
     </xs:complexContent>
-	</xs:complexType>
+  </xs:complexType>
 
   <xs:complexType name="EVENT_CONTEXT">
-        <xs:sequence>
-          <xs:element name="OtherContext" type="ITEM_STRUCTURE" minOccurs="0" />
-          <xs:element name="participation" type="PARTICIPATION" minOccurs ="0" maxOccurs="unbounded" />
-          <xs:element name="Items" type="ITEM" minOccurs="0" maxOccurs="unbounded" />
-          <xs:element name="Rule" type="statement" minOccurs="0" maxOccurs="unbounded" />
-        </xs:sequence>
-       <xs:attribute name="annotation" type="xs:string" />
+    <xs:sequence>
+      <xs:element name="OtherContext" type="ITEM_STRUCTURE" minOccurs="0" />
+      <xs:element name="participation" type="PARTICIPATION" minOccurs ="0" maxOccurs="unbounded" />
+      <xs:element name="Items" type="ITEM" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="Rule" type="statement" minOccurs="0" maxOccurs="unbounded" />
+    </xs:sequence>
+    <xs:attribute name="annotation" type="xs:string" />
   </xs:complexType>
 
   <xs:complexType name="COMPOSITION">
@@ -102,20 +131,20 @@
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
-  
+
   <xs:complexType name="SECTION">
-		<xs:complexContent>
-			<xs:extension base="content_item">
-				<xs:sequence>
-					<xs:element name="Item" type="content_item" minOccurs="0" maxOccurs="unbounded" />
-				</xs:sequence>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="ENTRY" abstract="true">
-		<xs:complexContent>
-			<xs:extension base="content_item">
-				<xs:sequence>
+    <xs:complexContent>
+      <xs:extension base="content_item">
+        <xs:sequence>
+          <xs:element name="Item" type="content_item" minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="ENTRY" abstract="true">
+    <xs:complexContent>
+      <xs:extension base="content_item">
+        <xs:sequence>
           <xs:element name="SubjectOfCare" type="textConstraint" minOccurs="0" />
           <xs:element name="other_participation" type="PARTICIPATION" minOccurs ="0" maxOccurs="unbounded" />
           <xs:element name="Items" type="ITEM" minOccurs="0" maxOccurs="unbounded" />
@@ -126,39 +155,39 @@
   <xs:complexType name="ADMIN_ENTRY">
     <xs:complexContent>
       <xs:extension base="ENTRY">
- 			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="EVALUATION">
-		<xs:complexContent>
-			<xs:extension base="ENTRY">
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="OBSERVATION">
-		<xs:complexContent>
-			<xs:extension base="ENTRY">
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="ACTION">
-		<xs:complexContent>
-			<xs:extension base="ENTRY">
-				<xs:sequence>
-            <xs:element name="description" type="ITEM_STRUCTURE" minOccurs="0" />
-				</xs:sequence>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="INSTRUCTION">
-		<xs:complexContent>
-			<xs:extension base="ENTRY">
-				<xs:sequence>
-            <xs:element name="activityDescription" type="ITEM_STRUCTURE" minOccurs="0" maxOccurs="unbounded" />
-				</xs:sequence>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="EVALUATION">
+    <xs:complexContent>
+      <xs:extension base="ENTRY">
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="OBSERVATION">
+    <xs:complexContent>
+      <xs:extension base="ENTRY">
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="ACTION">
+    <xs:complexContent>
+      <xs:extension base="ENTRY">
+        <xs:sequence>
+          <xs:element name="description" type="ITEM_STRUCTURE" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="INSTRUCTION">
+    <xs:complexContent>
+      <xs:extension base="ENTRY">
+        <xs:sequence>
+          <xs:element name="activityDescription" type="ITEM_STRUCTURE" minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
   <xs:complexType name="ITEM_STRUCTURE" abstract ="true">
     <xs:complexContent>
       <xs:extension base="archetyped">
@@ -207,7 +236,7 @@
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
-    <xs:complexType name="ITEM" abstract ="true">
+  <xs:complexType name="ITEM" abstract ="true">
     <xs:complexContent>
       <xs:extension base="archetyped">
         <xs:sequence>
@@ -243,7 +272,7 @@
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
-	
+
   <xs:complexType name="statement">
     <xs:sequence>
       <!-- queryId is redundant, kept for backward compatibility -->
@@ -254,16 +283,16 @@
       <xs:element name="conditionalNode" type="condition" minOccurs="0" />
       <xs:element name="nullFlavourConstraint" type="textConstraint" minOccurs="0" />
     </xs:sequence>
-		<xs:attribute name="path" type="xs:string" use="required" />
-		<xs:attribute name="max" type="xs:integer" />
-		<xs:attribute name="min" type="xs:integer" />
-		<xs:attribute name="exclusive" type="xs:boolean" />
-		<xs:attribute name="default" type="xs:string" />
+    <xs:attribute name="path" type="xs:string" use="required" />
+    <xs:attribute name="max" type="xs:integer" />
+    <xs:attribute name="min" type="xs:integer" />
+    <xs:attribute name="exclusive" type="xs:boolean" />
+    <xs:attribute name="default" type="xs:string" />
     <xs:attribute name="hide_on_form" type="xs:boolean" />
     <xs:attribute name="clone" type="xs:boolean" />
     <xs:attribute name="name" type="xs:string" />
     <xs:attribute name="annotation" type="xs:string" />
-	</xs:complexType>
+  </xs:complexType>
 
   <xs:complexType abstract="true" name="valueConstraint">
   </xs:complexType>
@@ -307,7 +336,7 @@
               - relevant to remove terms from external term subset
               - relevant to remove included text values in embedded templates
               - relevant to remove terms from external term subsets in embedded templates
-              
+
               AllowTerminologyLookup moved out and into form definition.
             </xs:documentation>
           </xs:annotation>
@@ -336,7 +365,7 @@
       <xs:element name="valueAsString" type="xs:string" />
     </xs:sequence>
   </xs:complexType>
-  
+
   <xs:complexType name="eventType">
     <xs:sequence>
       <xs:element name="allowedType" type="xs:string" minOccurs="0" />
@@ -355,8 +384,8 @@
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
-  
-    <xs:complexType name="multipleConstraint">
+
+  <xs:complexType name="multipleConstraint">
     <xs:complexContent>
       <xs:extension base="valueConstraint">
         <xs:sequence>
@@ -384,19 +413,19 @@
           <xs:element name ="includedUnits" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
           <xs:element name ="excludedUnits" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
           <xs:element name="unitMagnitude" type="quantityUnitConstraint" minOccurs="0" maxOccurs="unbounded"/>
-       </xs:sequence>
+        </xs:sequence>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
 
   <xs:complexType name="quantityUnitConstraint">
-        <xs:sequence>
-          <xs:element name ="unit" type="xs:string" />
-          <xs:element name ="maxMagnitude" type="xs:double" minOccurs="0" />
-          <xs:element name ="minMagnitude" type="xs:double" minOccurs="0" />
-          <xs:element name="includesMaximum" type="xs:boolean"/>
-          <xs:element name="includesMinimum" type="xs:boolean"/>
-        </xs:sequence>
+    <xs:sequence>
+      <xs:element name ="unit" type="xs:string" />
+      <xs:element name ="maxMagnitude" type="xs:double" minOccurs="0" />
+      <xs:element name ="minMagnitude" type="xs:double" minOccurs="0" />
+      <xs:element name="includesMaximum" type="xs:boolean"/>
+      <xs:element name="includesMinimum" type="xs:boolean"/>
+    </xs:sequence>
   </xs:complexType>
 
   <xs:complexType name="durationConstraint">
@@ -433,7 +462,7 @@
   </xs:complexType>
 
   <!-- From the archetype object model-->
-  
+
   <xs:complexType name="RESOURCE_DESCRIPTION">
     <xs:sequence>
       <xs:element name="original_author" type="hashTableStringString" minOccurs="0" />

@@ -235,11 +235,7 @@ PARSER_END(ADLParser)
 
 < * > TOKEN [IGNORE_CASE]: /* RESERVED WORDS AND LITERALS - ADL */
 {
-  <SYM_ARCHETYPE: "archetype"([" ","\t","\r","\n"])* > : DEFAULT
-| <SYM_ADL_VERSION: "adl_version"> : DEFAULT
-| <SYM_UID: "uid"> : HIER_OBJECT
-| <SYM_CONTROLLED: "controlled"> : DEFAULT
-| <SYM_UNCONTROLLED: "uncontrolled"> : DEFAULT
+  <SYM_ARCHETYPE: "archetype"([" ","\t","\r","\n"])* > : ARCHETYPE
 | <SYM_SPECIALIZE: "speciali"["s","z"]"e"([" ","\t","\r","\n"])*"\n"> : DEFAULT
 | <SYM_CONCEPT: "concept"([" ","\t","\r","\n"])*"\n" > : DEFAULT
 | <SYM_LANGUAGE: "language"([" ","\t","\r","\n"])*"\n"> : LANGUAGE
@@ -247,6 +243,15 @@ PARSER_END(ADLParser)
 | <SYM_DESCRIPTION: "description"([" ","\t","\r","\n"])*"\n" > : DESCRIPTION
 | <SYM_ONTOLOGY: "ontology"([" ","\t","\r","\n"])*"\n" > : ONTOLOGY
 }
+
+< ARCHETYPE > TOKEN [IGNORE_CASE]: /* KEYWORDS - archetype language */
+{
+  <SYM_ADL_VERSION: "adl_version"> : ARCHETYPE
+| <SYM_UID: "uid"> : HIER_OBJECT
+| <SYM_CONTROLLED: "controlled"> : ARCHETYPE
+| <SYM_UNCONTROLLED: "uncontrolled"> : ARCHETYPE
+}
+
 
 < LANGUAGE > TOKEN [IGNORE_CASE]: /* KEYWORDS - archetype language */
 {

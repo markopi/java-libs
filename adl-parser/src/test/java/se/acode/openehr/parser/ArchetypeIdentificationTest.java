@@ -48,5 +48,12 @@ public class ArchetypeIdentificationTest extends ParserTestBase {
         assertEquals("controlled flag wrong", false, archetype.isControlled());
     }
 
+    public void testParseUidAttribute() throws Exception {
+        ADLParser parser = new ADLParser(loadFromClasspath(
+                "openEHR-EHR-ELEMENT.uid_test.v3.adl"));
+        Archetype archetype = parser.parse();
+        assertNotNull(archetype);
+    }
+
 }
 

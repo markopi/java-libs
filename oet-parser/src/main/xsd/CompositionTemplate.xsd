@@ -248,6 +248,7 @@
         <xs:attribute name="min" type="xs:integer" />
         <xs:attribute name="path" type="xs:string" />
         <xs:attribute name="name" type="xs:string" />
+        <xs:attribute name="concept_name" type="xs:string" />
         <xs:attribute name="hide_on_form" type="xs:boolean" />
         <xs:attribute name="annotation" type="xs:string" />
       </xs:extension>

@@ -27,6 +27,7 @@
       <xs:element name="id" type="xs:string" />
       <xs:element name="name" type="xs:string" />
       <xs:element name="description" type="RESOURCE_DESCRIPTION" minOccurs="0" />
+      <xs:element name="annotations" type="Annotation" minOccurs="0" maxOccurs="unbounded"/>
       <xs:element name="definition" type="archetyped" />
       <xs:element name="view" type="View" minOccurs="0"/>
       <xs:element name="integrity_checks" type="IntegrityCheck" minOccurs="0" maxOccurs="unbounded"/>
@@ -46,6 +47,27 @@
           </xs:element>
       </xs:sequence>
   </xs:complexType>
+
+  <xs:complexType name="Annotation">
+    <xs:sequence>
+      <xs:element name="items" type="AnnotationItems" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute name="path" type="xs:string" use="required" />
+ </xs:complexType>
+
+  <xs:complexType name="AnnotationItems">
+    <xs:sequence>
+      <xs:element name="item" type="AnnotationItem" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="AnnotationItem">
+    <xs:sequence>
+      <xs:element name="key" type="xs:string"/>
+      <xs:element name="value" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
 
   <xs:complexType name="ArchetypeIntegrity" >
     <xs:complexContent>

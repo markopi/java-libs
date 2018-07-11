@@ -75,7 +75,7 @@ public class ADLSerializer {
 	public String outputDefinitionOnly(Archetype archetype) throws IOException {
 		StringWriter writer = new StringWriter();
 
-		printDefinition(archetype.getDefinition(), writer);
+		printDefinition(archetype, archetype.getDefinition(), writer);
 				
 		return writer.toString();
 	}
@@ -113,8 +113,8 @@ public class ADLSerializer {
 			printDescription(archetype.getDescription(), out);
 			newline(out);	
 		}
-		
-		printDefinition(archetype.getDefinition(), out);
+
+		printDefinition(archetype, archetype.getDefinition(), out);
 		newline(out);
 		
 		printOntology(archetype.getOntology(), out);
@@ -406,16 +406,16 @@ public class ADLSerializer {
 		newline(out);
 	}
 
-	protected void printDefinition(CComplexObject definition, Writer out)
+	protected void printDefinition(Archetype archetype, CComplexObject definition, Writer out)
 			throws IOException {
 
 		out.write("definition");
 		newline(out);
 
-		printCComplexObject(definition, 1, out);
+		printCComplexObject(archetype, definition, 1, out);
 	}
 
-	protected void printCComplexObject(CComplexObject ccobj, int indent,
+	protected void printCComplexObject(Archetype archetype, CComplexObject ccobj, int indent,
 			Writer out) throws IOException {
 		
 		// TODO skip c_obj with [0,0] occurrences
@@ -440,16 +440,38 @@ public class ADLSerializer {
 
 		// print all attributes
 		if (!ccobj.isAnyAllowed()) {
+			printLabelComment(archetype, ccobj.getNodeId(), out);
 			for (CAttribute cattribute : ccobj.getAttributes()) {
-				printCAttribute(cattribute, indent + 1, out);
+				printCAttribute(archetype, cattribute, indent + 1, out);
 			}
 			newline(out);
 			indent(indent, out);
+			out.write("}");
 		} else {
-			out.write("*");
+			out.write("*}");
+			printLabelComment(archetype, ccobj.getNodeId(), out);
 		}
-		out.write("}");
 		newline(out);
+	}
+
+	private void printLabelComment(Archetype archetype, String nodeId, Writer out) throws IOException {
+		if (archetype==null || nodeId == null) return;
+		if (archetype.getOriginalLanguage() == null) return;
+		if (archetype.getOntology() == null) return;
+		if (archetype.getOntology().getTermDefinitionsList()==null) return;
+		for (OntologyDefinitions ontologyDefinitions : archetype.getOntology().getTermDefinitionsList()) {
+			if (!Objects.equals(ontologyDefinitions.getLanguage(), archetype.getOriginalLanguage().getCodeString())) continue;
+			if (ontologyDefinitions.getDefinitions()==null) continue;
+
+			for (ArchetypeTerm at : ontologyDefinitions.getDefinitions()) {
+				if (!nodeId.equals(at.getCode()) || at.getText()==null || at.getText().isEmpty()) continue;
+				String label = at.getText().replace("\\s+", " ");
+				out.write("    -- ");
+				out.write(label);
+				return;
+			}
+		}
+
 	}
 
 	protected void printOccurrences(Interval<Integer> occurrences, Writer out)
@@ -547,7 +569,7 @@ public class ADLSerializer {
 		}
 	}
 
-	protected void printCAttribute(CAttribute cattribute, int indent, Writer out)
+	protected void printCAttribute(Archetype archetype, CAttribute cattribute, int indent, Writer out)
 			throws IOException {
 		newline(out);
 		indent(indent, out);
@@ -571,7 +593,7 @@ public class ADLSerializer {
 				|| !(children.get(0) instanceof CPrimitiveObject)) {
 			newline(out);
 			for (CObject cobject : cattribute.getChildren()) {
-				printCObject(cobject, indent + 1, out);
+				printCObject(archetype, cobject, indent + 1, out);
 			}
 			indent(indent, out);
 		} else {
@@ -595,16 +617,16 @@ public class ADLSerializer {
 		}
 	}
 
-	protected void printCObject(CObject cobj, int indent, Writer out)
+	protected void printCObject(Archetype archetype, CObject cobj, int indent, Writer out)
 			throws IOException {
 
 		// print specialised types
 		if (cobj instanceof CDomainType) {
-			printCDomainType((CDomainType) cobj, indent, out);
+			printCDomainType(archetype, (CDomainType) cobj, indent, out);
 		} else if (cobj instanceof CPrimitiveObject) {
 			printCPrimitiveObject((CPrimitiveObject) cobj, out);
 		} else if (cobj instanceof CComplexObject) {
-			printCComplexObject((CComplexObject) cobj, indent, out);
+			printCComplexObject(archetype, (CComplexObject) cobj, indent, out);
 		} else if (cobj instanceof ArchetypeInternalRef) {
 			printArchetypeInternalRef((ArchetypeInternalRef) cobj, indent, out);
 		} else if (cobj instanceof ArchetypeSlot) {
@@ -653,7 +675,7 @@ public class ADLSerializer {
 		out.write("}");
 	}
 
-	protected void printCDomainType(CDomainType cdomain, int indent, Writer out)
+	protected void printCDomainType(Archetype archetype, CDomainType cdomain, int indent, Writer out)
 			throws IOException {
 		if (cdomain instanceof CDvOrdinal) {
 			printCDvOrdinal((CDvOrdinal) cdomain, indent, out);
@@ -661,12 +683,12 @@ public class ADLSerializer {
 			printCDvQuantity((CDvQuantity) cdomain, indent, out);
 		}  
 		 else if (cdomain instanceof CCodePhrase) {
-		    printCCodePhrase((CCodePhrase) cdomain, indent, out);
+		    printCCodePhrase(archetype, (CCodePhrase) cdomain, indent, out);
 		}
 		// unknow CDomainType
 	}
 
-	protected void printCCodePhrase(CCodePhrase ccoded, int indent, Writer out)
+	protected void printCCodePhrase(Archetype archetype, CCodePhrase ccoded, int indent, Writer out)
 			throws IOException {
 
 		indent(indent, out);
@@ -695,14 +717,19 @@ public class ADLSerializer {
 					out.write(ccoded.getCodeList().get(i));
 					if (i != j - 1) {
 						out.write(",");
+						printLabelComment(archetype, ccoded.getCodeList().get(i), out);
 					} else {
 						if(ccoded.hasAssumedValue()) {
 							out.write(";");
+							printLabelComment(archetype, ccoded.getCodeList().get(i), out);
 							newline(out);
 							indent(indent, out);
 							out.write(ccoded.getAssumedValue().getCodeString());
+							out.write("]");
+						} else {
+							out.write("]");
+							printLabelComment(archetype, ccoded.getCodeList().get(i), out);
 						}
-						out.write("]");
 					}
 					newline(out);
 				}
@@ -712,6 +739,7 @@ public class ADLSerializer {
 					out.write(";" + ccoded.getAssumedValue().getCodeString());
 				}
 				out.write("]");
+				printLabelComment(archetype, ccoded.getCodeList().get(0), out);
 				newline(out);
 			} 
 		} else {

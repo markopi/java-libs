@@ -1,12 +1,11 @@
 package org.openehr.am.serialize;
 
-import java.util.Arrays;
-import java.util.List;
+import org.openehr.am.openehrprofile.datatypes.text.*;
+import org.openehr.rm.datatypes.text.*;
+import org.openehr.rm.support.basic.*;
+import org.openehr.rm.support.identification.*;
 
-import org.openehr.am.openehrprofile.datatypes.text.CCodePhrase;
-import org.openehr.rm.datatypes.text.CodePhrase;
-import org.openehr.rm.support.basic.Interval;
-import org.openehr.rm.support.identification.TerminologyID;
+import java.util.*;
 
 public class CCodePhraseTest extends SerializerTestBase {
 
@@ -18,12 +17,12 @@ public class CCodePhraseTest extends SerializerTestBase {
 		String[] codes = { "at2001", "at2002", "at2003" };
 		String terminology = "local";
 		Interval<Integer> occurrences = new Interval<Integer>(1, 1);
-		CCodePhrase ccoded = new CCodePhrase("/path", occurrences, null, null, 
+		CCodePhrase ccoded = new CCodePhrase("/path", occurrences, null, null,
 				new TerminologyID(terminology), Arrays.asList(codes), null, 
 				null);
 
 		clean();
-		outputter.printCCodePhrase(ccoded, 1, out);
+		outputter.printCCodePhrase(null, ccoded, 1, out);
 		verify("    [" + terminology + "::\r\n" + "    " + codes[0] + ",\r\n"
 				+ "    " + codes[1] + ",\r\n" + "    " + codes[2] + "]\r\n");
 	}
@@ -36,7 +35,7 @@ public class CCodePhraseTest extends SerializerTestBase {
 				new TerminologyID(terminology), Arrays.asList(codes), null, 
 				null);
 		clean();
-		outputter.printCCodePhrase(ccoded, 0, out);
+		outputter.printCCodePhrase(null, ccoded, 0, out);
 		verify("[local::at3102.0]\r\n");
 	}	
 	
@@ -50,7 +49,7 @@ public class CCodePhraseTest extends SerializerTestBase {
 				new TerminologyID(terminology), Arrays.asList(codes), null, 
 				assumed);
 		clean();
-		outputter.printCCodePhrase(ccoded, 0, out);
+		outputter.printCCodePhrase(null, ccoded, 0, out);
 		verify("[local::at3102.0;at3102.0]\r\n");
 	}
 	
@@ -63,7 +62,7 @@ public class CCodePhraseTest extends SerializerTestBase {
 				new TerminologyID(terminology), Arrays.asList(codes), null, 
 				assumed);
 		clean();
-		outputter.printCCodePhrase(ccoded, 0, out);
+		outputter.printCCodePhrase(null, ccoded, 0, out);
 		verifyByFile("c-code-phrase-test.adl");		
 	}
 	
@@ -73,7 +72,7 @@ public class CCodePhraseTest extends SerializerTestBase {
 		CCodePhrase ccoded = new CCodePhrase("/path", occurrences, null, null, 
 				new TerminologyID(terminology), null, null,	null);
 		clean();
-		outputter.printCCodePhrase(ccoded, 0, out);
+		outputter.printCCodePhrase(null, ccoded, 0, out);
 		verify("[local::]\r\n");
 	}
 	
@@ -86,7 +85,7 @@ public class CCodePhraseTest extends SerializerTestBase {
 		CCodePhrase ccoded = new CCodePhrase("/path", occurrences, null, null, 
 				terminology, codeList, defaultValue, assumedValue);
 		clean();
-		outputter.printCCodePhrase(ccoded, 0, out);
+		outputter.printCCodePhrase(null, ccoded, 0, out);
 		verifyByFile("c-code-phrase-test-empty.adl");		
 	}
 }

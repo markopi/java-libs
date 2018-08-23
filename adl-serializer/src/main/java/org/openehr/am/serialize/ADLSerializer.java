@@ -52,6 +52,24 @@ public class ADLSerializer {
 		this.lineSeparator = "\r\n";
 	}
 
+	public String getLineSeparator() {
+		return lineSeparator;
+	}
+
+	public ADLSerializer setLineSeparator(String lineSeparator) {
+		this.lineSeparator = lineSeparator;
+		return this;
+	}
+
+	public String getIndent() {
+		return indent;
+	}
+
+	public ADLSerializer setIndent(String indent) {
+		this.indent = indent;
+		return this;
+	}
+
 	/**
 	 * Output given archetype as string in ADL format
 	 * 

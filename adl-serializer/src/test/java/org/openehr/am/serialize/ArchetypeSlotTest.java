@@ -1,15 +1,11 @@
 package org.openehr.am.serialize;
 
-import java.util.LinkedHashSet;
+import org.openehr.am.archetype.assertion.*;
+import org.openehr.am.archetype.constraintmodel.*;
+import org.openehr.am.archetype.constraintmodel.primitive.*;
+import org.openehr.rm.support.basic.*;
 
-import org.openehr.am.archetype.assertion.Assertion;
-import org.openehr.am.archetype.assertion.ExpressionBinaryOperator;
-import org.openehr.am.archetype.assertion.ExpressionItem;
-import org.openehr.am.archetype.assertion.ExpressionLeaf;
-import org.openehr.am.archetype.assertion.OperatorKind;
-import org.openehr.am.archetype.constraintmodel.ArchetypeSlot;
-import org.openehr.am.archetype.constraintmodel.primitive.CString;
-import org.openehr.rm.support.basic.Interval;
+import java.util.*;
 
 /**
  * Testcase for ArchetypeSlot print in ADL serialization
@@ -61,7 +57,7 @@ public class ArchetypeSlotTest extends SerializerTestBase {
 				occurrences, "at0001", null, includes, excludes);
 
 		clean();
-		outputter.printArchetypeSlot(slot, 0, out);
+		outputter.printArchetypeSlot(null, slot, 0, out);
 		verifyByFile("archetype-slot-test.adl");
 	}
 	
@@ -95,7 +91,7 @@ public class ArchetypeSlotTest extends SerializerTestBase {
 				occurrences, "at0001", null, includes, excludes);
 
 		clean();
-		outputter.printArchetypeSlot(slot, 0, out);
+		outputter.printArchetypeSlot(null, slot, 0, out);
 		verifyByFile("archetype-slot-empty-excludes-test.adl");
 	}
 	
@@ -126,7 +122,7 @@ public class ArchetypeSlotTest extends SerializerTestBase {
 				occurrences, "at0001", null, includes, excludes);
 
 		clean();
-		outputter.printArchetypeSlot(slot, 0, out);
+		outputter.printArchetypeSlot(null, slot, 0, out);
 		verifyByFile("archetype-slot-empty-includes-test.adl");
 	}
 	
@@ -138,7 +134,7 @@ public class ArchetypeSlotTest extends SerializerTestBase {
 			occurrences, "at0001", null, includes, excludes);
 		
 		clean();
-		outputter.printArchetypeSlot(slot, 0, out);		
+		outputter.printArchetypeSlot(null, slot, 0, out);
 		verifyByFile("archetype-slot-any-allowed-test.adl");
 	}
 }

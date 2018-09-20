@@ -527,7 +527,7 @@ public class ADLSerializer {
 		newline(out);
 	}
 
-	protected void printArchetypeSlot(ArchetypeSlot slot, int indent, Writer out)
+	protected void printArchetypeSlot(Archetype archetype, ArchetypeSlot slot, int indent, Writer out)
 			throws IOException {
 
 		indent(indent, out);
@@ -542,7 +542,9 @@ public class ADLSerializer {
 
 		if (slot.isAnyAllowed()) {
 			out.write("*}");
+			printLabelComment(archetype, slot.getNodeId(), out);
 		} else {
+			printLabelComment(archetype, slot.getNodeId(), out);
 			if (slot.getIncludes() != null) {
 				printAssertions(slot.getIncludes(), "include", indent, out);
 			}
@@ -648,7 +650,7 @@ public class ADLSerializer {
 		} else if (cobj instanceof ArchetypeInternalRef) {
 			printArchetypeInternalRef((ArchetypeInternalRef) cobj, indent, out);
 		} else if (cobj instanceof ArchetypeSlot) {
-			printArchetypeSlot((ArchetypeSlot) cobj, indent, out);
+			printArchetypeSlot(archetype, (ArchetypeSlot) cobj, indent, out);
 		} else if (cobj instanceof ConstraintRef) {
 			printConstraintRef((ConstraintRef) cobj, indent, out);
 		}

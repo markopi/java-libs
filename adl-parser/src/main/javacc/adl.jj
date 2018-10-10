@@ -13,42 +13,20 @@
  * last_change: "$LastChangedDate$"
  */
 
-options {
-  STATIC = false;
-  DEBUG_PARSER = false;
-  DEBUG_TOKEN_MANAGER = false;
-  DEBUG_LOOKAHEAD = false;
-  LOOKAHEAD = 1;
-  UNICODE_INPUT = true;
-}
+import org.openehr.am.archetype.*;
 
-PARSER_BEGIN(ADLParser)
+options{
+        STATIC=false;
+        DEBUG_PARSER=false;
+        DEBUG_TOKEN_MANAGER=false;
+        DEBUG_LOOKAHEAD=false;
+        LOOKAHEAD=1;
+        UNICODE_INPUT=true;
+        }
 
-package se.acode.openehr.parser;
+        PARSER_BEGIN(ADLParser)
 
-import java.io.*;
-import java.util.*;
-import java.text.*;
-
-import org.openehr.rm.support.basic.Interval;
-import org.openehr.rm.datatypes.text.CodePhrase;
-import org.openehr.rm.datatypes.quantity.datetime.*;
-import org.openehr.rm.datatypes.text.*;
-import org.openehr.rm.datatypes.quantity.*;
-import org.openehr.rm.common.resource.*;
-import org.openehr.rm.common.generic.RevisionHistory;
-import org.openehr.rm.support.identification.*;
-import org.openehr.rm.support.terminology.*;
-import org.openehr.rm.support.measurement.*;
-
-import org.openehr.am.archetype.Archetype;
-import org.openehr.am.archetype.assertion.*;
-import org.openehr.am.archetype.constraintmodel.*;
-import org.openehr.am.archetype.constraintmodel.primitive.*;
-import org.openehr.am.archetype.ontology.*;
-import org.openehr.am.openehrprofile.datatypes.quantity.*;
-import org.openehr.am.openehrprofile.datatypes.text.CCodePhrase;
-import org.openehr.terminology.SimpleTerminologyService;
+        package se.acode.openehr.parser;
 
 /**
  * JavaCC grammer file for Archetype Definition Language (ADL)
@@ -2163,20 +2141,39 @@ List duration_list_value() :
 
 Interval duration_interval_value() :
 {
-  Interval i;
-  DvDuration lower = null;
+  Interval i = null;
   DvDuration upper = null;
+  DvDuration lower = null;
 }
 {
   <SYM_INTERVAL_DELIM>
   (
+    LOOKAHEAD( 3 )
+    {
+      boolean lowerInclusive = true;
+	  boolean upperInclusive = true;
+	  boolean upperSpecified = false;
+    }
+    [
+      <SYM_GT> { lowerInclusive = false; }
+	]
     lower = duration_value()
     { upper = lower; }
     [
-      <SYM_ELLIPSIS> upper = duration_value()
+      <SYM_ELLIPSIS>
+      [
+        <SYM_LT> {  upperInclusive = false; }
+      ]
+      upper = duration_value()
+      { upperSpecified = true; }
     ]
     {
-      i = new Interval(lower, upper, true, true);
+      if(!lowerInclusive && !upperSpecified) {
+      	// specical case for |>100.0|
+      	i = new Interval(lower, null, false, false);
+      } else {
+        i = new Interval(lower, upper, lowerInclusive, upperInclusive);
+      }
     }
   |
     <SYM_LT> upper = duration_value()
@@ -2200,8 +2197,11 @@ Interval duration_interval_value() :
     }
   )
   <SYM_INTERVAL_DELIM>
+
   { return i; }
 }
+
+
 
 String term_code() :
 {

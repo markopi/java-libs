@@ -1,8 +1,10 @@
 package se.acode.openehr.parser;
 
-import org.openehr.am.archetype.Archetype;
-import org.openehr.rm.datatypes.quantity.datetime.DvDuration;
-import org.openehr.rm.support.basic.Interval;
+import org.openehr.am.archetype.*;
+import org.openehr.am.archetype.constraintmodel.*;
+import org.openehr.am.archetype.constraintmodel.primitive.*;
+import org.openehr.rm.datatypes.quantity.datetime.*;
+import org.openehr.rm.support.basic.*;
 
 public class CDurationTest extends ParserTestBase {
 
@@ -103,7 +105,20 @@ public class CDurationTest extends ParserTestBase {
 		assertCDuration(archetype.node("/types[at0002]/items[at1006]/value"), 
 				null, null, "P1d", "PDTH");
 	}
-	
+
+	public void testDurationWithExclusiveBounds() throws Exception {
+//		CDuration actual =(CDuration) ((CPrimitiveObject)archetype.node("/types[at0001]/items[at1015]/value")).getItem();
+
+		Interval<DvDuration> interval = new Interval<DvDuration> (
+				DvDuration.getInstance("PT0S"),
+				DvDuration.getInstance("PT120S"),
+				false, false);
+
+		assertCDuration(archetype.node("/types[at0001]/items[at1015]/value"),
+				null, interval, null, null);
+
+	}
+
 	/**
 	 * Tests parsing CDurations with assumed values
 	 * 
@@ -115,7 +130,7 @@ public class CDurationTest extends ParserTestBase {
 				DvDuration.getInstance("PT120S"));
 		
 		
-		assertCDuration(archetype.node("/types[at0001]/items[at1014]/value"), 
+		assertCDuration(archetype.node("/types[at0001]/items[at1014]/value"),
 				null, interval, null, "PTS");
 		
 	}

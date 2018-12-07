@@ -13,7 +13,6 @@
  * last_change: "$LastChangedDate$"
  */
 
-import org.openehr.am.archetype.*;
 
 options{
         STATIC=false;
@@ -27,6 +26,30 @@ options{
         PARSER_BEGIN(ADLParser)
 
         package se.acode.openehr.parser;
+
+import java.io.*;
+import java.util.*;
+import java.text.*;
+
+import org.openehr.rm.support.basic.Interval;
+import org.openehr.rm.datatypes.text.CodePhrase;
+import org.openehr.rm.datatypes.quantity.datetime.*;
+import org.openehr.rm.datatypes.text.*;
+import org.openehr.rm.datatypes.quantity.*;
+import org.openehr.rm.common.resource.*;
+import org.openehr.rm.common.generic.RevisionHistory;
+import org.openehr.rm.support.identification.*;
+import org.openehr.rm.support.terminology.*;
+import org.openehr.rm.support.measurement.*;
+
+import org.openehr.am.archetype.Archetype;
+import org.openehr.am.archetype.assertion.*;
+import org.openehr.am.archetype.constraintmodel.*;
+import org.openehr.am.archetype.constraintmodel.primitive.*;
+import org.openehr.am.archetype.ontology.*;
+import org.openehr.am.openehrprofile.datatypes.quantity.*;
+import org.openehr.am.openehrprofile.datatypes.text.CCodePhrase;
+import org.openehr.terminology.SimpleTerminologyService;
 
 /**
  * JavaCC grammer file for Archetype Definition Language (ADL)

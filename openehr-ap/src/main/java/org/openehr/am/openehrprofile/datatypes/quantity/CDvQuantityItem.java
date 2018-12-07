@@ -59,8 +59,9 @@ public class CDvQuantityItem implements Serializable{
 	 */
 	public CDvQuantityItem(Interval<Double> magnitude, Interval<Integer> precision,
 			String units) {
-		if(StringUtils.isEmpty(units)) {
-			throw new IllegalArgumentException("units null or empty");
+		if(StringUtils.isBlank(units)) {
+//			throw new IllegalArgumentException("units null or empty");
+			units="";
 		}
 		this.magnitude = magnitude;
 		this.precision = precision;

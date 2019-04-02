@@ -14,16 +14,12 @@
  */
 package org.openehr.am.serialize;
 
+import junit.framework.*;
+import org.openehr.rm.datatypes.text.*;
+import org.openehr.rm.support.terminology.*;
+
 import java.io.*;
 import java.util.*;
-
-import org.openehr.rm.datatypes.text.CodePhrase;
-import org.openehr.rm.support.terminology.CodeSetAccess;
-import org.openehr.rm.support.terminology.OpenEHRCodeSetIdentifiers;
-import org.openehr.rm.support.terminology.TerminologyAccess;
-import org.openehr.rm.support.terminology.TerminologyService;
-
-import junit.framework.TestCase;
 
 public class SerializerTestBase extends TestCase 
 	implements TerminologyService, CodeSetAccess {

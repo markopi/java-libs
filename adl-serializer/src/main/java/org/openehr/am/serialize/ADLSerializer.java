@@ -437,12 +437,12 @@ public class ADLSerializer {
 			Writer out) throws IOException {
 		
 		// TODO skip c_obj with [0,0] occurrences
-		Interval<Integer> occurrences = ccobj.getOccurrences();
-		if(occurrences != null 
-				&& (Integer.valueOf(0).equals(occurrences.getLower()))
-				&& (Integer.valueOf(0).equals(occurrences.getUpper()))) {
-			return;		
-		}
+//		Interval<Integer> occurrences = ccobj.getOccurrences();
+//		if(occurrences != null
+//				&& (Integer.valueOf(0).equals(occurrences.getLower()))
+//				&& (Integer.valueOf(0).equals(occurrences.getUpper()))) {
+//			return;
+//		}
 						
 
 		// print rmTypeName and nodeId

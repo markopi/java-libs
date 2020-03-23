@@ -949,7 +949,7 @@ public class ADLSerializer {
 		// *** Term binding section *** (ADL 1.4 spec 8.6.5)
 		if (ontology.getTermBindingList() != null) {
 			indent(1, out);
-			out.write("term_binding = <");
+			out.write("term_bindings = <");
 			newline(out);
 			for (int i = 0; i < ontology.getTermBindingList().size(); i++) {
 				OntologyBinding bind = ontology.getTermBindingList().get(i);
@@ -996,7 +996,7 @@ public class ADLSerializer {
 		// *** Constraint binding section *** (ADL 1.4 spec 8.6.6)
 		if (ontology.getConstraintBindingList() != null) {
 			indent(1, out);
-			out.write("constraint_binding = <");
+			out.write("constraint_bindings = <");
 			newline(out);
 			for (int i = 0; i < ontology.getConstraintBindingList().size(); i++) {
 				OntologyBinding bind = ontology.getConstraintBindingList().get(
